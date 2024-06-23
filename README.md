@@ -2,137 +2,46 @@
 
 ## Visão Geral
 
-Este repositório contém o microserviço de autenticação de login desenvolvido para uma aplicação de e-commerce. O serviço
-permite que clientes se cadastrem e façam login na plataforma, gerenciando suas sessões e permissões de acesso com base
-em roles.
+- Objetivo: Este repositório contém o microserviço de autenticação de login desenvolvido para uma aplicação de
+  e-commerce. O serviço
+  permite que clientes se cadastrem e façam login na plataforma, gerenciando suas sessões e permissões de acesso com
+  base em roles.
 
-## Funcionalidades
+- Arquitetura: O projeto foi desenvolvido em Java com Spring Boot, seguindo o padrão de arquitetura limpa. A aplicação
+  é dividida em camadas de aplicação, domínio e infraestrutura.
 
-- Registro de novos clientes
-- Login de clientes existentes
-- Geração e validação de tokens JWT
-- Proteção de endpoints com base em roles
-- Consulta de usuários cadastrados (apenas para administradores)
+- Segurança: A segurança da aplicação é garantida por meio de tokens JWT (JSON Web Token), que são gerados e validados
+
+- Banco de Dados: Para facilitar o desenvolvimento e testes, a aplicação utiliza o banco de dados H2, que é um banco de
+  dados em memória.
+
+- Dependências: O projeto utiliza o Gradle como gerenciador de dependências e build.
+
+- Endpoints: A API oferece endpoints para registro de novos clientes, login de clientes existentes e consulta de
+  usuários cadastrados (apenas para administradores).
+
+- Execução: Para executar o projeto, basta clonar o repositório e executar o comando `./gradlew bootRun`.
+
+- Requisitos: Para executar o projeto, é necessário ter o JDK 17 ou superior e o Gradle 6.8 ou superior instalados na
+  máquina.
+
+- Exemplo de Requisição: Para facilitar a chamada das requisições, a collection da API pode ser encontrada no diretório
+  `/collection`.
 
 ## Estrutura do Projeto
 
-A estrutura do projeto segue o padrão de arquitetura limpa, dividida em camadas de aplicação, domínio e infraestrutura
+A estrutura do projeto está organizada em diferentes pacotes, cada um com responsabilidades específicas para manter o
+código modular e fácil de manter.
 
+| Pacote            | Descrição                | Responsabilidades                                                                                                          |
+|-------------------|--------------------------|----------------------------------------------------------------------------------------------------------------------------|
+| `/application`    | Camada de Aplicação      | Contém os serviços e controladores responsáveis pelo processamento das solicitações e pela lógica de negócio.              |
+| `/domain`         | Camada de Domínio        | Define as entidades do domínio, repositórios e regras de negócio que regem o comportamento do sistema.                     |
+| `/infrastructure` | Camada de Infraestrutura | Gerencia a comunicação com sistemas externos, como bancos de dados e serviços externos, e configurações de infraestrutura. |
 
-## Tecnologias Utilizadas
+## Endpoints
 
-- Java 17
-- Spring Boot 3.3.1
-- Spring Security
-- Spring Data JPA
-- JWT (JSON Web Token) - versão 4.4.0
-- H2 Database (para testes)
-- Gradle
-- Lombok
-
-## Dependências
-
-```gradle
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation group: 'com.auth0', name: 'java-jwt', version: '4.4.0'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-    compileOnly 'org.projectlombok:lombok'
-    runtimeOnly 'com.h2database:h2'
-    annotationProcessor 'org.projectlombok:lombok'
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testImplementation 'org.springframework.security:spring-security-test'
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-```
-
-## Segurança
-
-A configuração de segurança está no arquivo
-src/main/java/com/suaempresa/customerauthentication/infrastructure/security/SecurityConfig.java:
-
-```java
-@Bean
-public SecurityFilterChain securityFilterChain(
-        final HttpSecurity http
-) throws Exception {
-
-   http.csrf(AbstractHttpConfigurer::disable)
-           .sessionManagement(
-                   session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-           )
-           .authorizeHttpRequests(authorize -> authorize
-                   .requestMatchers(HttpMethod.POST, "/auth").permitAll()
-                   .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-                   .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                   .requestMatchers(HttpMethod.GET, "/users").hasRole(UserRole.ADMIN.name())
-                   .anyRequest().authenticated()
-           )
-           .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
-   return http.build();
-}
-```
-
-## Configuração e Execução
-
-### Pré-requisitos
-
-- JDK 17 ou superior
-- Gradle 6.8 ou superior
-
-### Configuração
-
-1. Clone o repositório:
-    ```bash
-    git clone https://github.com/suaempresa/customerauthentication.git
-    cd customerauthentication
-    ```
-
-2. Execute o projeto:
-    ```bash
-    ./gradlew bootRun
-    ```
-
-### Endpoints
-
-A API oferece os seguintes endpoints:
-
-- `POST /auth/register` - Registro de novos clientes
-- `POST /auth/login` - Autenticação de clientes
-- `GET /users` - Consulta de usuários cadastrados (necessita role ADMIN)
-
-### Exemplo de Requisição
-
-Para facilitar a chamada das requisições, está disponível a collection da API no diretório `/collection`.
-
-**Registro de Cliente**
-
-```bash
-curl -X POST http://localhost:8080/auth/register -H "Content-Type: application/json" -d '{
-  "username": "user",
-  "password": "password123",
-  "role": "USER"
-}'
-```
-
-**Login de Cliente**
-
-```bash
-curl -X POST http://localhost:8080/auth/login -H "Content-Type: application/json" -d '{
-  "username": "user",
-  "password": "password123"
-}'
-```
-
-**Consulta de Usuários (necessita role ADMIN)**
-
-```bash
-curl -X GET http://localhost:8080/users -H "Authorization: Bearer seu_token_jwt_aqui"
-```
-
-
+Os detalhes dos endpoints da API, incluindo descrições, parâmetros de entrada e exemplos de resposta, estão disponíveis
+no arquivo [`API Endpoints Documentation`](./API_Endpoints_Documentation.md).
 
 
