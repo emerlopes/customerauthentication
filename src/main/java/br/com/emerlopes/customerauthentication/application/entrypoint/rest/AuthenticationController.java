@@ -6,7 +6,6 @@ import br.com.emerlopes.customerauthentication.application.exceptions.InvalidLog
 import br.com.emerlopes.customerauthentication.application.mapper.AuthenticationDomainEntityMapper;
 import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.usecase.AuthenticationUseCase;
-import br.com.emerlopes.customerauthentication.domain.usecase.GenerateAuthenticationUseCase;
 import br.com.emerlopes.customerauthentication.domain.usecase.ValidateTokenUseCase;
 import jakarta.validation.Valid;
 import lombok.SneakyThrows;
@@ -18,19 +17,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/auth")
 public class AuthenticationController {
 
-    private final GenerateAuthenticationUseCase generateAuthenticationUseCase;
-
     private final AuthenticationUseCase authenticationUseCase;
 
     private final ValidateTokenUseCase validateTokenUseCase;
 
 
     public AuthenticationController(
-            final GenerateAuthenticationUseCase generateAuthenticationUseCase,
             final AuthenticationUseCase authenticationUseCase,
             final ValidateTokenUseCase validateTokenUseCase
     ) {
-        this.generateAuthenticationUseCase = generateAuthenticationUseCase;
         this.authenticationUseCase = authenticationUseCase;
         this.validateTokenUseCase = validateTokenUseCase;
     }
