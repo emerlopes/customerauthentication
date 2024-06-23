@@ -10,5 +10,7 @@ public interface UserDomainRepository {
 
     List<UserDomainEntity> findUsers();
 
-    UserDomainEntity findUserByLogin(UserDomainEntity email);
+    UserDomainEntity findUserByLogin(UserDomainEntity user);
+
+    boolean isNewUser(UserDomainEntity user);
 }
