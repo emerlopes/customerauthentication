@@ -12,11 +12,11 @@ public class UserDomainEntityMapper {
     public static UserDomainEntity toDomainEntity(
             final UserEntity userEntity
     ) {
-        return new UserDomainEntity()
-                .setId(userEntity.getId())
-                .setLogin(userEntity.getUsername())
-                .setPassword(userEntity.getPass())
-                .setRole(userEntity.getRole());
+        return UserDomainEntity.builder()
+                .id(userEntity.getId())
+                .login(userEntity.getUsername())
+                .password(userEntity.getPass())
+                .role(userEntity.getRole()).build();
     }
 
     public static List<UserDomainEntity> toDomainEntity(
@@ -30,9 +30,11 @@ public class UserDomainEntityMapper {
     public static UserDomainEntity toDomainEntity(
             final RegisterUserRequestDTO registerUserRequestDTO
     ) {
-        return new UserDomainEntity()
-                .setLogin(registerUserRequestDTO.getUsername())
-                .setPassword(registerUserRequestDTO.getPassword());
+
+        return UserDomainEntity.builder()
+                .login(registerUserRequestDTO.getUsername())
+                .password(registerUserRequestDTO.getPassword())
+                .build();
     }
 
 }

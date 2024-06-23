@@ -49,11 +49,13 @@ public class UserDomainService implements UserDomainRepository {
         final var userFromDatabase = registerUserRepository.findByLogin(login);
 
         if (userFromDatabase.isEmpty()) {
-            return new UserDomainEntity();
+            return UserDomainEntity.builder().build();
         }
 
-        return new UserDomainEntity()
-                .setLogin(userFromDatabase.get().getUsername());
+        return UserDomainEntity
+                .builder()
+                .login(userFromDatabase.get().getUsername())
+                .build();
 
     }
 
