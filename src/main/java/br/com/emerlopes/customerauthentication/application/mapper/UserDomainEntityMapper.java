@@ -4,7 +4,6 @@ import br.com.emerlopes.customerauthentication.application.entrypoint.rest.dto.R
 import br.com.emerlopes.customerauthentication.domain.entity.UserDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.shared.UserRole;
 import br.com.emerlopes.customerauthentication.infrastructure.database.entity.UserEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.List;
 
