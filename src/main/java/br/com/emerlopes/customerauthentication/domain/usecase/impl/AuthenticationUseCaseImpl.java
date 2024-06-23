@@ -2,6 +2,7 @@ package br.com.emerlopes.customerauthentication.domain.usecase.impl;
 
 import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.repository.AuthenticationDomainRepository;
+import br.com.emerlopes.customerauthentication.domain.shared.UserRole;
 import br.com.emerlopes.customerauthentication.domain.usecase.AuthenticationUseCase;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -30,7 +31,15 @@ public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
                 authenticationDomainEntity.getPassword()
         );
 
-        authenticationManager.authenticate(userPassword);
+        final var auth = authenticationManager.authenticate(userPassword);
+        final var roles = auth.getAuthorities();
+
+        authenticationDomainEntity.setRole(
+                roles.stream().map(
+                        authority -> UserRole.fromRole(authority.getAuthority())
+                ).toList()
+        );
+
         return authenticationDomainRepository.getAuthentication(authenticationDomainEntity);
 
     }
