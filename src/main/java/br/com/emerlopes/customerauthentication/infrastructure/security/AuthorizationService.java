@@ -23,6 +23,6 @@ public class AuthorizationService implements UserDetailsService {
     public UserDetails loadUserByUsername(
             final String username
     ) throws UsernameNotFoundException {
-        return userRepository.findByLogin(username);
+        return userRepository.findByLogin(username).orElseThrow(() -> new UsernameNotFoundException("User not found"));
     }
 }
