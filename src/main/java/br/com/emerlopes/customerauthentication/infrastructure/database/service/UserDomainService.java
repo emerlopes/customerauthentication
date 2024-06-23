@@ -46,15 +46,24 @@ public class UserDomainService implements UserDomainRepository {
             final UserDomainEntity userDomainEntity
     ) {
         final var login = userDomainEntity.getLogin();
-        final var userEntity = registerUserRepository.findByLogin(login);
+        final var userFromDatabase = registerUserRepository.findByLogin(login);
 
-        if (userEntity == null) {
+        if (userFromDatabase.isEmpty()) {
             return new UserDomainEntity();
         }
 
         return new UserDomainEntity()
-                .setLogin(userEntity.getUsername());
+                .setLogin(userFromDatabase.get().getUsername());
 
+    }
+
+    @Override
+    public boolean isNewUser(
+            final UserDomainEntity user
+    ) {
+        final var userFromDatabase = registerUserRepository.findByLogin(user.getLogin());
+
+        return userFromDatabase.isEmpty();
     }
 
 }
