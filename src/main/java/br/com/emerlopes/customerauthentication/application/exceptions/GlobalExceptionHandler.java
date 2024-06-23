@@ -42,8 +42,7 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
-    @Getter
-        public record ErrorResponse(String errorCode, String message) {
+    public record ErrorResponse(String errorCode, String message) {
 
     }
 }
