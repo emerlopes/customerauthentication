@@ -39,6 +39,35 @@ código modular e fácil de manter.
 | `/domain`         | Camada de Domínio        | Define as entidades do domínio, repositórios e regras de negócio que regem o comportamento do sistema.                     |
 | `/infrastructure` | Camada de Infraestrutura | Gerencia a comunicação com sistemas externos, como bancos de dados e serviços externos, e configurações de infraestrutura. |
 
+## Segurança
+
+A segurança do microserviço de autenticação é um aspecto crucial para garantir a proteção dos dados dos usuários e a
+integridade do sistema. A seguir, são descritas as principais medidas de segurança implementadas:
+
+### Uso de Tokens JWT e Roles
+
+- **Tokens JWT (JSON Web Token)**: A autenticação e autorização na aplicação são gerenciadas por meio de tokens JWT.
+  Esses tokens são gerados no momento do login e contêm informações codificadas sobre o usuário, como seu ID e suas
+  roles (permissões). Cada token é assinado digitalmente para evitar falsificação.
+
+- **Roles**: As roles são perfis de permissão atribuídos aos usuários. Na aplicação, existem três roles
+  principais: `GUEST`, `USER` e `ADMIN`. Essas roles definem o nível de acesso e as ações que cada usuário pode realizar
+  dentro da plataforma.
+
+### Registro de Novos Usuários
+
+Para evitar interceptação de requisições e a criação de usuários sem a devida permissão, foi tomada a decisão de deixar
+como responsabilidade do backend definir as roles dos usuários. Com isso, foram criados endpoints específicos para o
+cadastro de cada tipo de usuário:
+
+- **Registro de Guest**: Aberto para todos, permite o cadastro de usuários com role `GUEST`.
+- **Registro de User**: Aberto para todos, permite o cadastro de usuários com role `USER`.
+- **Registro de Admin**: Restrito, permite o cadastro de usuários com role `ADMIN`. Para acessar este endpoint, é
+  necessário um token válido com role `ADMIN`.
+
+Essa abordagem garante que a definição de permissões seja controlada pelo backend, aumentando a segurança contra
+tentativas de criação de usuários com permissões inadequadas.
+
 ## Endpoints
 
 Os detalhes dos endpoints da API, incluindo descrições, parâmetros de entrada e exemplos de resposta, estão disponíveis
