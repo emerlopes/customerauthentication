@@ -28,7 +28,7 @@
 - Exemplo de Requisição: Para facilitar a chamada das requisições, a collection da API pode ser encontrada no diretório
   `/collection`.
 
-![arquiterura](./docs/images/authentication-service.png)
+![arquitetura](./docs/images/desenho-solucao.drawio.png)
 
 ## Estrutura do Projeto
 
