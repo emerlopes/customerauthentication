@@ -10,6 +10,7 @@ import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomai
 import br.com.emerlopes.customerauthentication.domain.usecase.AuthenticationUseCase;
 import br.com.emerlopes.customerauthentication.domain.usecase.GenerateAuthenticationUseCase;
 import br.com.emerlopes.customerauthentication.domain.usecase.RegisterUserUseCase;
+import br.com.emerlopes.customerauthentication.domain.usecase.ValidateTokenUseCase;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import lombok.SneakyThrows;
@@ -25,17 +26,33 @@ public class AuthenticationController {
 
     private final AuthenticationUseCase authenticationUseCase;
 
+    private final ValidateTokenUseCase validateTokenUseCase;
+
 
     final RegisterUserUseCase registerUserUseCase;
 
     public AuthenticationController(
             final GenerateAuthenticationUseCase generateAuthenticationUseCase,
             final AuthenticationUseCase authenticationUseCase,
+            final ValidateTokenUseCase validateTokenUseCase,
             final RegisterUserUseCase registerUserUseCase
     ) {
         this.generateAuthenticationUseCase = generateAuthenticationUseCase;
         this.authenticationUseCase = authenticationUseCase;
+        this.validateTokenUseCase = validateTokenUseCase;
         this.registerUserUseCase = registerUserUseCase;
+    }
+
+    @PostMapping("/validate")
+    public ResponseEntity<?> validateToken(
+            final @RequestHeader("Authorization") String token,
+            final @RequestBody @Valid AuthenticationRequestDTO authenticationRequestDTO
+    ) {
+        final var authenticationDomainEntity = AuthenticationDomainEntityMapper.toDomainEntity(token, authenticationRequestDTO);
+        final var login = validateTokenUseCase.execute(authenticationDomainEntity);
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new CustomResponseDTO<AuthenticationDomainEntity>().setData(login));
     }
 
     @PostMapping

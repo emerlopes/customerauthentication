@@ -27,4 +27,18 @@ public class AuthenticationServiceImpl implements AuthenticationDomainRepository
                 .token(token)
                 .build();
     }
+
+    @Override
+    public AuthenticationDomainEntity validateToken(
+            final AuthenticationDomainEntity authenticationDomainEntity
+    ) {
+        final var username = tokenService.validateToken(
+                authenticationDomainEntity.getToken(),
+                authenticationDomainEntity.getSecret()
+        );
+        return AuthenticationDomainEntity
+                .builder()
+                .username(username)
+                .build();
+    }
 }

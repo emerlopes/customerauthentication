@@ -11,4 +11,5 @@ public class AuthenticationDomainEntity {
     private String username;
     private String password;
     private String token;
+    private String secret;
 }

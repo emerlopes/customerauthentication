@@ -13,4 +13,14 @@ public class AuthenticationDomainEntityMapper {
                 .password(authenticationRequestDTO.getPassword())
                 .build();
     }
+
+    public static AuthenticationDomainEntity toDomainEntity(
+            final String token,
+            final AuthenticationRequestDTO authenticationRequestDTO
+    ) {
+        return AuthenticationDomainEntity.builder()
+                .secret(authenticationRequestDTO.getSecret())
+                .token(token)
+                .build();
+    }
 }

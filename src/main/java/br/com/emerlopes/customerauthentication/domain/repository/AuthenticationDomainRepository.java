@@ -6,4 +6,6 @@ import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomai
 public interface AuthenticationDomainRepository {
 
     AuthenticationDomainEntity getAuthentication(AuthenticationDomainEntity authenticationDomainEntity);
+
+    AuthenticationDomainEntity validateToken(AuthenticationDomainEntity authenticationDomainEntity);
 }
