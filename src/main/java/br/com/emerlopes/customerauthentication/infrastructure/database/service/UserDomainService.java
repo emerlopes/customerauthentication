@@ -4,6 +4,7 @@ import br.com.emerlopes.customerauthentication.application.mapper.UserDomainEnti
 import br.com.emerlopes.customerauthentication.application.mapper.UserEntityMapper;
 import br.com.emerlopes.customerauthentication.domain.entity.UserDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.repository.UserDomainRepository;
+import br.com.emerlopes.customerauthentication.domain.shared.UserRole;
 import br.com.emerlopes.customerauthentication.infrastructure.database.repository.UserRepository;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -52,9 +53,18 @@ public class UserDomainService implements UserDomainRepository {
             return UserDomainEntity.builder().build();
         }
 
+        final var role = userFromDatabase.get()
+                .getAuthorities().stream()
+                .findFirst();
+
+        if (role.isEmpty()) {
+            return UserDomainEntity.builder().build();
+        }
+
         return UserDomainEntity
                 .builder()
                 .login(userFromDatabase.get().getUsername())
+                .role(UserRole.fromRole(role.get().getAuthority()))
                 .build();
 
     }

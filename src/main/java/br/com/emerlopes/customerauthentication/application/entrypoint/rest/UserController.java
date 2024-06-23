@@ -4,10 +4,7 @@ import br.com.emerlopes.customerauthentication.application.entrypoint.rest.dto.R
 import br.com.emerlopes.customerauthentication.application.shared.CustomResponseDTO;
 import br.com.emerlopes.customerauthentication.application.mapper.UserDomainEntityMapper;
 import br.com.emerlopes.customerauthentication.domain.entity.UserDomainEntity;
-import br.com.emerlopes.customerauthentication.domain.usecase.FindUsersUseCase;
-import br.com.emerlopes.customerauthentication.domain.usecase.RegisterAdminUseCase;
-import br.com.emerlopes.customerauthentication.domain.usecase.RegisterGuestUseCase;
-import br.com.emerlopes.customerauthentication.domain.usecase.RegisterUserUseCase;
+import br.com.emerlopes.customerauthentication.domain.usecase.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,17 +19,20 @@ public class UserController {
     final RegisterGuestUseCase registerGuestUseCase;
     final RegisterAdminUseCase registerAdminUseCase;
     final FindUsersUseCase findUsersUseCase;
+    final FindUserByLoginUseCase findUserByLoginUseCase;
 
     public UserController(
             final RegisterUserUseCase registerUserUseCase,
             final RegisterGuestUseCase registerGuestUseCase,
             final RegisterAdminUseCase registerAdminUseCase,
-            final FindUsersUseCase findUsersUseCase
+            final FindUsersUseCase findUsersUseCase,
+            final FindUserByLoginUseCase findUserByLoginUseCase
     ) {
         this.registerUserUseCase = registerUserUseCase;
         this.registerGuestUseCase = registerGuestUseCase;
         this.registerAdminUseCase = registerAdminUseCase;
         this.findUsersUseCase = findUsersUseCase;
+        this.findUserByLoginUseCase = findUserByLoginUseCase;
     }
 
     @PostMapping("/register-guest")
@@ -71,6 +71,24 @@ public class UserController {
                 new CustomResponseDTO<List<UserDomainEntity>>()
                         .setData(
                                 findUsersUseCase.execute(null)
+                        )
+        );
+    }
+
+    @GetMapping("/login/{login}")
+    public ResponseEntity<?> getUserByLogin(
+            final @PathVariable String login
+    ) {
+
+        final var userDomainEntity = UserDomainEntity
+                .builder()
+                .login(login)
+                .build();
+
+        return ResponseEntity.status(HttpStatus.OK).body(
+                new CustomResponseDTO<UserDomainEntity>()
+                        .setData(
+                                findUserByLoginUseCase.execute(userDomainEntity)
                         )
         );
     }
