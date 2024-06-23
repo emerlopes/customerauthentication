@@ -3,6 +3,7 @@ package br.com.emerlopes.customerauthentication.infrastructure.token;
 import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.repository.AuthenticationDomainRepository;
 import br.com.emerlopes.customerauthentication.infrastructure.security.TokenService;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +21,14 @@ public class AuthenticationServiceImpl implements AuthenticationDomainRepository
     public AuthenticationDomainEntity getAuthentication(
             final AuthenticationDomainEntity authenticationDomainEntity
     ) {
-        final var token = tokenService.generateToken(authenticationDomainEntity.getUsername());
+
+        final var userDetails = User
+                .withUsername(authenticationDomainEntity.getUsername())
+                .password(authenticationDomainEntity.getPassword())
+                .authorities(String.valueOf(authenticationDomainEntity.getRoles()))
+                .build();
+
+        final var token = tokenService.generateToken(userDetails);
         return AuthenticationDomainEntity
                 .builder()
                 .username(authenticationDomainEntity.getUsername())
