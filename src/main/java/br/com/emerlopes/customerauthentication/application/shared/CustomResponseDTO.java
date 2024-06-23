@@ -1,4 +1,4 @@
-package br.com.emerlopes.customerauthentication.application.entrypoint.rest.shared;
+package br.com.emerlopes.customerauthentication.application.shared;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

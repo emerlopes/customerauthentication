@@ -1,7 +1,7 @@
 package br.com.emerlopes.customerauthentication.application.entrypoint.rest;
 
 import br.com.emerlopes.customerauthentication.application.entrypoint.rest.dto.RegisterUserRequestDTO;
-import br.com.emerlopes.customerauthentication.application.entrypoint.rest.shared.CustomResponseDTO;
+import br.com.emerlopes.customerauthentication.application.shared.CustomResponseDTO;
 import br.com.emerlopes.customerauthentication.application.mapper.UserDomainEntityMapper;
 import br.com.emerlopes.customerauthentication.domain.entity.UserDomainEntity;
 import br.com.emerlopes.customerauthentication.domain.usecase.FindUsersUseCase;

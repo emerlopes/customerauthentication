@@ -1,7 +1,7 @@
 package br.com.emerlopes.customerauthentication.application.entrypoint.rest;
 
 import br.com.emerlopes.customerauthentication.application.entrypoint.rest.dto.AuthenticationRequestDTO;
-import br.com.emerlopes.customerauthentication.application.entrypoint.rest.shared.CustomResponseDTO;
+import br.com.emerlopes.customerauthentication.application.shared.CustomResponseDTO;
 import br.com.emerlopes.customerauthentication.application.exceptions.InvalidLoginException;
 import br.com.emerlopes.customerauthentication.application.mapper.AuthenticationDomainEntityMapper;
 import br.com.emerlopes.customerauthentication.domain.entity.AuthenticationDomainEntity;
