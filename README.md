@@ -28,6 +28,9 @@
 - Exemplo de Requisição: Para facilitar a chamada das requisições, a collection da API pode ser encontrada no diretório
   `/collection`.
 
+
+## Arquitetura
+
 ![arquitetura](./docs/images/desenho-solucao.drawio.png)
 
 ## Estrutura do Projeto
