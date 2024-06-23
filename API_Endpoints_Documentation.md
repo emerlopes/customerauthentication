@@ -20,3 +20,14 @@
   "password": "password"
 }
 ```
+
+### /auth/login (POST)
+
+```json
+{
+  "data": {
+    "username": "user_admin",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJBUEkiLCJzdWIiOiJ1c2VyX2FkbWluIiwicm9sZXMiOlsiW0FETUlOLCBVU0VSXSJdLCJleHAiOjE3MTkxNTkwMzJ9.WauOsKHgidAedJtMjsfSFUyMUB1D-KmQsazLBLLD278"
+  }
+}
+```
