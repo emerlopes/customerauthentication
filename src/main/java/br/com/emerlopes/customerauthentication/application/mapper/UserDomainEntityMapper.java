@@ -32,8 +32,7 @@ public class UserDomainEntityMapper {
     ) {
         return new UserDomainEntity()
                 .setLogin(registerUserRequestDTO.getUsername())
-                .setPassword(registerUserRequestDTO.getPassword())
-                .setRole(UserRole.fromRole(registerUserRequestDTO.getRole()));
+                .setPassword(registerUserRequestDTO.getPassword());
     }
 
 }

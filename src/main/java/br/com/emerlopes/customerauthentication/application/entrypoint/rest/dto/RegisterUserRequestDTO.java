@@ -9,7 +9,4 @@ import lombok.Data;
 public class RegisterUserRequestDTO {
     private String username;
     private String password;
-
-    @NotBlank
-    private String role;
 }
