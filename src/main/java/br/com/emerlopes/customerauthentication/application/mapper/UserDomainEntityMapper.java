@@ -16,7 +16,7 @@ public class UserDomainEntityMapper {
                 .setId(userEntity.getId())
                 .setLogin(userEntity.getUsername())
                 .setPassword(userEntity.getPass())
-                .setRole(UserRole.valueOf(userEntity.getRole().name()));
+                .setRole(userEntity.getRole());
     }
 
     public static List<UserDomainEntity> toDomainEntity(
@@ -33,7 +33,7 @@ public class UserDomainEntityMapper {
         return new UserDomainEntity()
                 .setLogin(registerUserRequestDTO.getUsername())
                 .setPassword(registerUserRequestDTO.getPassword())
-                .setRole(UserRole.valueOf(registerUserRequestDTO.getRole()));
+                .setRole(UserRole.fromRole(registerUserRequestDTO.getRole()));
     }
 
 }
