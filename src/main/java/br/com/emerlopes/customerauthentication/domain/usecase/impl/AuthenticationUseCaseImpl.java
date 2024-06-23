@@ -34,7 +34,7 @@ public class AuthenticationUseCaseImpl implements AuthenticationUseCase {
         final var auth = authenticationManager.authenticate(userPassword);
         final var roles = auth.getAuthorities();
 
-        authenticationDomainEntity.setRole(
+        authenticationDomainEntity.setRoles(
                 roles.stream().map(
                         authority -> UserRole.fromRole(authority.getAuthority())
                 ).toList()
