@@ -44,13 +44,13 @@ public class SecurityFilter extends OncePerRequestFilter {
         if (login != null) {
             final var user = userRepository.findByLogin(login);
 
-            if (user == null) {
+            if (user.isEmpty()) {
                 logger.error("User not found for login: {}", login);
                 filterChain.doFilter(request, response);
                 return;
             }
 
-            final var authentication = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
+            final var authentication = new UsernamePasswordAuthenticationToken(user, null, user.get().getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
         filterChain.doFilter(request, response);
