@@ -28,6 +28,8 @@
 - Exemplo de Requisição: Para facilitar a chamada das requisições, a collection da API pode ser encontrada no diretório
   `/collection`.
 
+![arquiterura](./docs/images/authentication-service.png)
+
 ## Estrutura do Projeto
 
 A estrutura do projeto está organizada em diferentes pacotes, cada um com responsabilidades específicas para manter o
