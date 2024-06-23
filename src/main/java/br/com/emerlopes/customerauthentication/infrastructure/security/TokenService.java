@@ -6,9 +6,12 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.util.List;
 
 @Service
 public class TokenService {
@@ -17,12 +20,18 @@ public class TokenService {
     private String secret;
 
     public String generateToken(
-            final String login
+            final UserDetails userDetails
     ) {
         try {
+
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .toList();
+
             return JWT.create()
                     .withIssuer("API")
-                    .withSubject(login)
+                    .withSubject(userDetails.getUsername())
+                    .withClaim("roles", roles)
                     .withExpiresAt(getExpirationTime())
                     .sign(getAlgorithm(this.secret));
 
@@ -53,7 +62,6 @@ public class TokenService {
             final String secret
     ) {
         try {
-
             JWTVerifier verifier = JWT.require(getAlgorithm(secret))
                     .withIssuer("API")
                     .build();
