@@ -74,4 +74,35 @@ public class AuthenticationController {
             throw new InvalidLoginException("User or password invalid.");
         }
     }
+
+    @SneakyThrows
+    @PostMapping("/token")
+    public ResponseEntity<?> getToken(
+            final @RequestParam String username,
+            final @RequestParam String password
+    ) {
+
+        try {
+
+            logger.info("Requesting token for user");
+
+            final var authenticationDomainEntity = AuthenticationDomainEntityMapper.toDomainEntity(
+                    username, password
+            );
+
+            final var executionResult = authenticationUseCase.execute(authenticationDomainEntity);
+
+            logger.info("Token requested for user");
+
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(
+                            new CustomResponseDTO<AuthenticationDomainEntity>()
+                                    .setData(executionResult)
+                    );
+        } catch (Throwable e) {
+            throw new InvalidLoginException("User or password invalid.");
+        }
+    }
+
 }
