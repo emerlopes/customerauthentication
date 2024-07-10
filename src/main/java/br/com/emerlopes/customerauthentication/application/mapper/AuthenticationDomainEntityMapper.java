@@ -15,6 +15,16 @@ public class AuthenticationDomainEntityMapper {
     }
 
     public static AuthenticationDomainEntity toDomainEntity(
+            final String username,
+            final String password
+    ) {
+        return AuthenticationDomainEntity.builder()
+                .username(username)
+                .password(password)
+                .build();
+    }
+
+    public static AuthenticationDomainEntity toDomainEntity(
             final String token,
             final AuthenticationRequestDTO authenticationRequestDTO
     ) {
