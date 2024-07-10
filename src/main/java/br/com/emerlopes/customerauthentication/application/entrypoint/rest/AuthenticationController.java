@@ -84,7 +84,7 @@ public class AuthenticationController {
 
         try {
 
-            logger.info("Requesting token for user");
+            logger.info(String.format("Requesting token for user: %s", username));
 
             final var authenticationDomainEntity = AuthenticationDomainEntityMapper.toDomainEntity(
                     username, password
@@ -92,7 +92,7 @@ public class AuthenticationController {
 
             final var executionResult = authenticationUseCase.execute(authenticationDomainEntity);
 
-            logger.info("Token requested for user");
+            logger.info(String.format("Token requested for user: %s", username));
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
