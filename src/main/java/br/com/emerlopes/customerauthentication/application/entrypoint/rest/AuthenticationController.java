@@ -13,12 +13,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @RequestMapping("/auth")
 public class AuthenticationController {
 
+    private final Logger logger = Logger.getLogger(AuthenticationController.class.getName());
     private final AuthenticationUseCase authenticationUseCase;
-
     private final ValidateTokenUseCase validateTokenUseCase;
 
 
@@ -35,8 +37,13 @@ public class AuthenticationController {
             final @RequestHeader("Authorization") String token,
             final @RequestBody @Valid AuthenticationRequestDTO authenticationRequestDTO
     ) {
+
+        logger.info("Validating token");
+
         final var authenticationDomainEntity = AuthenticationDomainEntityMapper.toDomainEntity(token, authenticationRequestDTO);
         final var login = validateTokenUseCase.execute(authenticationDomainEntity);
+
+        logger.info("Token validated");
 
         return ResponseEntity.status(HttpStatus.OK).body(
                 new CustomResponseDTO<AuthenticationDomainEntity>().setData(login));
@@ -49,8 +56,13 @@ public class AuthenticationController {
     ) {
 
         try {
+
+            logger.info("Logging in user");
+
             final var authenticationDomainEntity = AuthenticationDomainEntityMapper.toDomainEntity(authenticationRequestDTO);
             final var executionResult = authenticationUseCase.execute(authenticationDomainEntity);
+
+            logger.info("User logged in");
 
             return ResponseEntity
                     .status(HttpStatus.CREATED)
