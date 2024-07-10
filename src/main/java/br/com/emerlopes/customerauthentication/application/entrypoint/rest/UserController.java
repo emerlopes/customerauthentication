@@ -97,7 +97,7 @@ public class UserController {
         );
     }
 
-    @GetMapping("/login/{login}")
+    @GetMapping("/{login}")
     public ResponseEntity<?> getUserByLogin(
             final @PathVariable String login
     ) {
