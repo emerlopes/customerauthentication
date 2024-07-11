@@ -1,6 +1,7 @@
 package br.com.emerlopes.customerauthentication.application.exceptions;
 
 import br.com.emerlopes.customerauthentication.domain.exceptions.BusinessException;
+import br.com.emerlopes.customerauthentication.domain.exceptions.UserAlreadyExistsException;
 import lombok.Getter;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
@@ -19,6 +20,13 @@ public class GlobalExceptionHandler {
         logger.error("BusinessException occurred: " + ex.getErrorCode() + " - " + ex.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode(), ex.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    @ExceptionHandler(UserAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+        logger.error("UserAlreadyExistsException occurred: " + ex.getErrorCode() + " - " + ex.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse(ex.getErrorCode(), ex.getMessage());
+        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
     }
 
 //    @ExceptionHandler(Exception.class)
